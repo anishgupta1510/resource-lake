@@ -4,13 +4,12 @@ import { createClient } from 'next-sanity';
 import React, { useEffect, useState } from 'react'
 import PdfCard from './PdfCard';
 
-const Search = ({initialdata,branch,sem}) => {
+const Search = ({initialdata,branch,sem, filterdata, setfilterdata}) => {
 
     const [isSmaller] = useMediaQuery("(max-width: 768px)")
     const [search,setsearch] = useState("");
     const [data,setdata] = useState(initialdata);
     // console.log(initialdata[0].branch)
-    const [filterdata,setfilterdata] = useState(null);
     useEffect(()=>{
         let temp1 = [];
         let temp2 = [];
@@ -27,7 +26,6 @@ const Search = ({initialdata,branch,sem}) => {
         setfilterdata(temp2)
     },[branch,sem])
 
-    console.log(filterdata)
 
   return (
     <>
@@ -46,7 +44,7 @@ const Search = ({initialdata,branch,sem}) => {
                 </Text>
             </Box>
             
-            <SimpleGrid columns={[1,2,3,4]} gap="16px" >
+            <SimpleGrid columns={[1,2,3]} gap="16px" >
                 {
                     filterdata?.filter((val)=>{
                         if(search === ""){

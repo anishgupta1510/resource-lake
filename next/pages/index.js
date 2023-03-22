@@ -1,4 +1,5 @@
 import FileForm from "@/components/FileForm";
+import InfoTab from "@/components/InfoTab";
 import Search from "@/components/Search";
 import client from "@/content/sanity-client";
 import UserContext from "@/context/UserContext";
@@ -17,15 +18,17 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  filter,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext, useState , useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-const index = ({initialdata}) => {
-  const { userInfo  } = useContext(UserContext);
+const index = ({ initialdata }) => {
+  const { userInfo } = useContext(UserContext);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
+  const [filterdata, setfilterdata] = useState(initialdata);
 
   const handleupclick = () => {
     if (userInfo === null) {
@@ -41,31 +44,31 @@ const index = ({initialdata}) => {
     }
   };
 
-  const handleclick = () => {
-    
-  }
+  const handleclick = () => {};
 
   const [isSmaller] = useMediaQuery("(max-width: 768px)");
-  const [data,setdata] = useState(initialdata);
+  const [data, setdata] = useState(initialdata);
   // useEffect(()=>{
   //   const subscription = client.listen(`*[_type == 'post']`)
   //   .subscribe((event) => setdata((prevdata) => [...prevdata,event.document] ) )
 
   //   return () => subscription.unsubscribe();
   // } , [] );
-  let params={}
+  let params = {};
 
-  useEffect(()=>{
-    const connection = client.listen(`*[_type == "post"]`,params={}).subscribe((update)=>{
-      setdata(update.result)
-    })
-    return ()=>{
-      connection.unsubscribe()
-    }
-  },[])
+  useEffect(() => {
+    const connection = client
+      .listen(`*[_type == "post"]`, (params = {}))
+      .subscribe((update) => {
+        setfilterdata([...filterdata, update.result]);
+      });
+    return () => {
+      connection.unsubscribe();
+    };
+  }, []);
 
-  const [branch,setbranch] = useState("");
-  const [sem,setsem] = useState("")
+  const [branch, setbranch] = useState("");
+  const [sem, setsem] = useState("");
 
   return (
     <>
@@ -75,11 +78,16 @@ const index = ({initialdata}) => {
         flexDirection={"column"}
         marginTop="10px"
       >
+        <InfoTab/>
         <Box width={isSmaller ? "80vw" : "40vw"} display>
           <Text marginTop={"5px"} fontSize="2xl">
             Select Branch
           </Text>
-          <Select placeholder="Branch" marginTop={"5px"} onChange={(e)=>setbranch(e.target.value)} >
+          <Select
+            placeholder="Branch"
+            marginTop={"5px"}
+            onChange={(e) => setbranch(e.target.value)}
+          >
             <option>Cse</option>
             <option>It</option>
             <option>Ece</option>
@@ -91,7 +99,11 @@ const index = ({initialdata}) => {
           <Text marginTop={"5px"} fontSize="2xl">
             Select Semester
           </Text>
-          <Select placeholder="Semester" marginTop={"5px"} onChange={(e)=>setsem(e.target.value)} >
+          <Select
+            placeholder="Semester"
+            marginTop={"5px"}
+            onChange={(e) => setsem(e.target.value)}
+          >
             <option>I</option>
             <option>II</option>
             <option>III</option>
@@ -102,9 +114,9 @@ const index = ({initialdata}) => {
             <option>VIII</option>
           </Select>
         </Box>
-        <Button colorScheme={"telegram"} marginTop="15px" onClick={handleclick} >
+        {/* <Button colorScheme={"telegram"} marginTop="15px" onClick={handleclick} >
           Search
-        </Button>
+        </Button> */}
         <Button
           marginTop={"15px"}
           colorScheme="linkedin"
@@ -112,7 +124,7 @@ const index = ({initialdata}) => {
         >
           Upload Document
         </Button>
-        <Text marginTop={"10px"} fontSize="3xl" >
+        <Text marginTop={"10px"} fontSize="3xl">
           Search
         </Text>
         <Modal
@@ -124,18 +136,27 @@ const index = ({initialdata}) => {
           <ModalOverlay />
           <ModalContent>
             <ModalBody>
-              <FileForm onClose={onClose} />
+              <FileForm
+                filterdata={filterdata}
+                setfilterdata={setfilterdata}
+                onClose={onClose}
+              />
             </ModalBody>
             <ModalFooter>
-              <Button onClick={onClose} colorScheme="red" >
+              <Button onClick={onClose} colorScheme="red">
                 Close
               </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
 
-        <Search initialdata={data} branch={branch} sem={sem} /> 
-
+        <Search
+          initialdata={data}
+          branch={branch}
+          sem={sem}
+          filterdata={filterdata}
+          setfilterdata={setfilterdata}
+        />
       </Flex>
     </>
   );
@@ -143,12 +164,12 @@ const index = ({initialdata}) => {
 
 export default index;
 
-export async function getStaticProps(context){
-  const data = await client.fetch(`*[_type == "post"]`)
+export async function getStaticProps(context) {
+  const data = await client.fetch(`*[_type == "post"]`);
   return {
-    props:{
-      initialdata:data,
+    props: {
+      initialdata: data,
     },
-    revalidate:10
-  }
+    revalidate: 10,
+  };
 }

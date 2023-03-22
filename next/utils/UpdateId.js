@@ -8,7 +8,7 @@ const update = (data,id) => {
     client.patch(id)
     .set(updated_data)
     .commit()
-    .then(res=>console.log(`Document updated with id ${id}`))
+    .then()
     .catch(err=>console.log(err))
 }
 

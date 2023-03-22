@@ -3,6 +3,7 @@ import del from '@/utils/Delete'
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure , Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { MdDelete } from "react-icons/md"
 
 const DelBtn = ({id}) => {
 
@@ -12,7 +13,7 @@ const DelBtn = ({id}) => {
 
     const handleclick = () => {
         // del(id)
-        client.delete(id).then(res=>console.log(res))
+        client.delete(id).then()
         .catch(err=>console.log(err))
         // onClose();
         toast({
@@ -29,18 +30,17 @@ const DelBtn = ({id}) => {
   return (
     <>  
         {
-            console.log(id)
         }
     
-        <Button color={"white"} onClick={onOpen} bg="red.500" _hover={{bg:"blue.500" , color:"white"}} >
-            Delete
+        <Button color={"white"} onClick={onOpen} bg="red.500" _hover={{bg:"blue.500" , color:"white"}} rounded="full" >
+            <MdDelete/>
         </Button>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered >
             <ModalOverlay/>
             <ModalContent>
                 <ModalBody>
                     <Box textAlign={"center"} >
-                        <Text fontWeight={"bold"} >
+                        <Text fontWeight={"bold"} marginBottom="30px" >
                             Do you want to delete this file?
                         </Text>
                     </Box>  

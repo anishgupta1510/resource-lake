@@ -19,7 +19,6 @@ const upload = async(url,data) => {
         const res = await client.create(updata);
         const id = res._id
         update(updata,id)
-        console.log(`doc Id is ${res._id}`)
     }
     catch(error){
         console.log(error)

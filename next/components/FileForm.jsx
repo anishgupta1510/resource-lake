@@ -10,102 +10,67 @@ import {
   Input,
   useMediaQuery,
   useToast,
-  Select
+  Select,
 } from "@chakra-ui/react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext, useRef, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { useRouter } from "next/router";
-const FileForm = ({onClose}) => {
+const FileForm = ({ onClose, filterdata, setfilterdata }) => {
   const filepickerref = useRef(null);
   const [filename, setfileName] = useState("");
   const [file, setfile] = useState(null);
-  const [branch,setbranch] = useState("");
-  const [sem,setsem] = useState("");
+  const [branch, setbranch] = useState("");
+  const [sem, setsem] = useState("");
   const toast = useToast();
-  const { userInfo } = useContext(UserContext)
-  const router = useRouter()
+  const { userInfo } = useContext(UserContext);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    if (filename === "") {
-      toast({
-        title: "Filename can't be empty",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+    if (!isValid({ file, filename, branch, sem })) {
+      setLoading(false);
       return;
     }
-    if( branch === "" ){
+    const storageref = ref(storage, "/files/" + filename);
+    const uploadTask = uploadBytesResumable(storageref, file);
+    await uploadTask.on(
+      "state_changed",
+      () => {},
+      (error) => {
+        console.log(error);
         toast({
-            title:"Branch Not Choosen",
-            status:"error",
-            duration:3000,
-            isClosable:true
-        })
-        return;
-    } 
-    if( sem === "" ){
-        toast({
-            title:"Semester Not Choosen",
-            status:"error",
-            duration:3000,
-            isClosable:true
-        })
-        return;
-    }
-    if (file === null) {
-        toast({
-          title: "No File choosen",
+          title: "Error",
           status: "error",
           duration: 3000,
           isClosable: true,
         });
-        return;
-    }
-    const storageref = ref(storage, "/files/" + filename);
-    const uploadTask = uploadBytesResumable(storageref, file);
-    uploadTask.on(
-        "state_changed",
-        ()=>{},
-        (error)=>{
-            console.log(error)
-            toast({
-                title:"Error",
-                status:"error",
-                duration:3000,
-                isClosable:true
-            })
-        },
-        ()=>{
-            getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
-              const date = new Date();
-              const data = {
-                author:userInfo.displayName,
-                filename:filename,
-                date:date.toISOString().substring(0,10),
-                branch:branch,
-                semester:sem,
-                email:userInfo.email
-              }
-              console.log(data)
-              upload(url,data).then(()=>{
-                setTimeout(()=>{
-                //  router.reload() 
-                },1000)
-              })
-              toast({
-                title:"File Upload Success",
-                status:"success",
-                duration:3000,
-                isClosable:true
-              })
-              onClose()
-            })
-        }
-    )
-    
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+          const date = new Date();
+          const data = {
+            author: userInfo.displayName,
+            filename: filename,
+            date: date.toISOString().substring(0, 10),
+            branch: branch,
+            semester: sem,
+            email: userInfo.email,
+          };
+          await upload(url, data);
+          toast({
+            title: "File Upload Success",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          onClose();
+          setLoading(false);
+        });
+      }
+    );
   };
 
   const handlefilechange = (e) => {
@@ -129,29 +94,42 @@ const FileForm = ({onClose}) => {
           placeholder="File Name"
           onChange={(e) => setfileName(e.target.value)}
         />
-        <FormLabel marginTop={"5px"} >
-            Branch (for which the file is related )
-         </FormLabel>
-         <Select placeholder="Branch" marginTop={"5px"} onChange={(e)=>{setbranch(e.target.value)}
-        } >
-            <option>Cse</option>
-            <option>It</option>
-            <option>Ece</option>
-            <option>Eee</option>
-            <option>Mech</option>
-            <option>Civil</option>
-          </Select>
-        <FormLabel marginTop={"5px"} >Semester (for which the file is related) </FormLabel>
-        <Select placeholder="Semester" marginTop={"5px"} onChange={(e)=>{setsem(e.target.value)}} >
-        <option>I</option>
-            <option>II</option>
-            <option>III</option>
-            <option>IV</option>
-            <option>V</option>
-            <option>VI</option>
-            <option>VII</option>
-            <option>VIII</option>
-          </Select>
+        <FormLabel marginTop={"5px"}>
+          Branch (for which the file is related )
+        </FormLabel>
+        <Select
+          placeholder="Branch"
+          marginTop={"5px"}
+          onChange={(e) => {
+            setbranch(e.target.value);
+          }}
+        >
+          <option>Cse</option>
+          <option>It</option>
+          <option>Ece</option>
+          <option>Eee</option>
+          <option>Mech</option>
+          <option>Civil</option>
+        </Select>
+        <FormLabel marginTop={"5px"}>
+          Semester (for which the file is related){" "}
+        </FormLabel>
+        <Select
+          placeholder="Semester"
+          marginTop={"5px"}
+          onChange={(e) => {
+            setsem(e.target.value);
+          }}
+        >
+          <option>I</option>
+          <option>II</option>
+          <option>III</option>
+          <option>IV</option>
+          <option>V</option>
+          <option>VI</option>
+          <option>VII</option>
+          <option>VIII</option>
+        </Select>
         <Button
           colorScheme={"twitter"}
           margin="10px"
@@ -184,6 +162,7 @@ const FileForm = ({onClose}) => {
             marginTop="5px"
             onClick={handlesubmit}
             type="submit"
+            isLoading={loading}
           >
             Submit
           </Button>
@@ -194,3 +173,43 @@ const FileForm = ({onClose}) => {
 };
 
 export default FileForm;
+
+const isValid = ({ filename, branch, sem, file }) => {
+  if (filename === "") {
+    toast({
+      title: "Filename can't be empty",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+    return false;
+  }
+  if (branch === "") {
+    toast({
+      title: "Branch Not Choosen",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+    return false;
+  }
+  if (sem === "") {
+    toast({
+      title: "Semester Not Choosen",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+    return false;
+  }
+  if (file === null) {
+    toast({
+      title: "No File choosen",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+    return false;
+  }
+  return true;
+};
