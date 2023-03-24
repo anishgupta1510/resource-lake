@@ -16,7 +16,7 @@ const PdfCard = ({val}) => {
                         val.file_name
                     }
                 </Text>
-                <DelBtn id={val?.doc_id} />
+                <DelBtn id={val?.doc_id} val={val} />
                 </Box>
                 <Box display={"flex"} alignItems="center" justifyContent={"space-between"} marginTop="3px" >
                     <Text color={"grey"} fontSize="xs" >

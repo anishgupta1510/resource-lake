@@ -1,11 +1,12 @@
 import client from '@/content/sanity-client'
+import UserContext from '@/context/UserContext'
 import del from '@/utils/Delete'
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure , Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useContext } from 'react'
 import { MdDelete } from "react-icons/md"
 
-const DelBtn = ({id}) => {
+const DelBtn = ({id,val}) => {
 
     const { isOpen , onOpen , onClose } = useDisclosure()
     const toast = useToast()
@@ -27,14 +28,20 @@ const DelBtn = ({id}) => {
         },1000)
     }
 
+    const {userInfo} = useContext(UserContext)
+
   return (
     <>  
         {
         }
     
-        <Button color={"white"} onClick={onOpen} bg="red.500" _hover={{bg:"blue.500" , color:"white"}} rounded="full" >
+        { 
+            userInfo?.email === val?.email && (
+                <Button color={"white"} onClick={onOpen} bg="red.500" _hover={{bg:"blue.500" , color:"white"}} rounded="full" >
             <MdDelete/>
         </Button>
+            )
+        }
         <Modal isOpen={isOpen} onClose={onClose} isCentered >
             <ModalOverlay/>
             <ModalContent>
