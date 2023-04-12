@@ -19,9 +19,6 @@ const InfoTab = () => {
             <Box fontSize={"md"}color="grey" >
                 Search the branch and semester to get all the documents related to that branch/semester
             </Box>
-            <Box color={"Highlight"} >
-                Reload if changes don't occur!
-            </Box>
         </Box>
     
     </>

@@ -13,7 +13,7 @@ const Search = ({initialdata,branch,sem, filterdata, setfilterdata}) => {
     useEffect(()=>{
         let temp1 = [];
         let temp2 = [];
-        data.map((ele)=>{
+        data?.map((ele)=>{
             if( ele.branch === branch || branch === "" ){
                 temp1.push(ele)
             }
@@ -72,4 +72,3 @@ const Search = ({initialdata,branch,sem, filterdata, setfilterdata}) => {
 }
 
 export default Search
-

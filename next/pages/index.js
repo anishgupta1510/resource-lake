@@ -22,13 +22,50 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
+import useSWR from 'swr'
+import fetcher from "@/utils/fetcher";
+import Display from "@/components/Display";
 
-const index = ({ initialdata }) => {
+
+const index = ({   }) => {
   const { userInfo } = useContext(UserContext);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const [filterdata, setfilterdata] = useState(initialdata);
+  const [filterdata, setfilterdata] = useState();
+  
+  // useEffect(()=>{
+  //   const fun = async() => {
+  //     try{
+  //       const res = await axios.get('/api/read')
+  //       setfilterdata(res.data)
+  //     }catch(err){
+  //       console.log(err);
+  //     }
+  //   }
+  //   fun();
+  // },[])
+  // const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const res = useSWR('/api/read',fetcher , {
+    refreshInterval:1000,
+    revalidateIfStale:true,
+    revalidateOnFocus:true,
+    revalidateOnMount:true,
+    revalidateOnReconnect:true
+  } )
+  useEffect(()=>{
+    if (res.error) {
+      console.log(error);
+      return;
+    }
+    if(res.data){
+      setfilterdata(res.data);
+      console.log(res.data);
+    }
+  },[res.data])
+
+  console.log(filterdata)
 
   const handleupclick = () => {
     if (userInfo === null) {
@@ -44,10 +81,8 @@ const index = ({ initialdata }) => {
     }
   };
 
-  const handleclick = () => {};
-
   const [isSmaller] = useMediaQuery("(max-width: 768px)");
-  const [data, setdata] = useState(initialdata);
+  const [data, setdata] = useState(filterdata);
   // useEffect(()=>{
   //   const subscription = client.listen(`*[_type == 'post']`)
   //   .subscribe((event) => setdata((prevdata) => [...prevdata,event.document] ) )
@@ -56,16 +91,18 @@ const index = ({ initialdata }) => {
   // } , [] );
   let params = {};
 
-  useEffect(() => {
-    const connection = client
-      .listen(`*[_type == "post"]`, (params = {}))
-      .subscribe((update) => {
-        setfilterdata([...filterdata, update.result]);
-      });
-    return () => {
-      connection.unsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const connection = client
+  //     .listen(`*[_type == "post"]`, (params = {}))
+  //     .subscribe((update) => {
+  //       setfilterdata([...filterdata, update.result]);
+  //     });
+  //   return () => {
+  //     connection.unsubscribe();
+  //   };
+  // }, []);
+
+
 
   const [branch, setbranch] = useState("");
   const [sem, setsem] = useState("");
@@ -81,7 +118,7 @@ const index = ({ initialdata }) => {
         <InfoTab/>
         <Box width={isSmaller ? "80vw" : "40vw"} display>
           <Text marginTop={"5px"} fontSize="2xl">
-            Select Branch
+            Search by Branch
           </Text>
           <Select
             placeholder="Branch"
@@ -97,7 +134,7 @@ const index = ({ initialdata }) => {
 
         <Box width={isSmaller ? "80vw" : "40vw"} marginTop={"5px"}>
           <Text marginTop={"5px"} fontSize="2xl">
-            Select Semester
+            Select by Semester
           </Text>
           <Select
             placeholder="Semester"
@@ -125,7 +162,10 @@ const index = ({ initialdata }) => {
           Upload Document
         </Button>
         <Text marginTop={"10px"} fontSize="3xl">
-          Search
+          Search 
+        </Text>
+        <Text color={"grey"} >
+          (by file name)
         </Text>
         <Modal
           isOpen={isOpen}
@@ -150,13 +190,23 @@ const index = ({ initialdata }) => {
           </ModalContent>
         </Modal>
 
-        <Search
+        {/* <Search
           initialdata={data}
           branch={branch}
           sem={sem}
           filterdata={filterdata}
           setfilterdata={setfilterdata}
-        />
+        /> */}
+        {/* <Search
+        
+          filterdata={filterdata}
+          branch={branch}
+          sem={sem}
+
+        /> */}
+
+        <Display filterdata={filterdata} branch={branch} sem={sem} />
+
       </Flex>
     </>
   );
@@ -164,12 +214,3 @@ const index = ({ initialdata }) => {
 
 export default index;
 
-export async function getStaticProps(context) {
-  const data = await client.fetch(`*[_type == "post"]`);
-  return {
-    props: {
-      initialdata: data,
-    },
-    revalidate: 10,
-  };
-}

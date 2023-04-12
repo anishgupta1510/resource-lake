@@ -2,8 +2,9 @@ import client from '@/content/sanity-client'
 import UserContext from '@/context/UserContext'
 import del from '@/utils/Delete'
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure , Text, useToast } from '@chakra-ui/react'
+import axios from 'axios'
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { MdDelete } from "react-icons/md"
 
 const DelBtn = ({id,val}) => {
@@ -11,30 +12,36 @@ const DelBtn = ({id,val}) => {
     const { isOpen , onOpen , onClose } = useDisclosure()
     const toast = useToast()
     const router = useRouter()
+    const [isclicked,setisclicked] = useState(false);
 
-    const handleclick = () => {
+    const handleclick = async() => {
         // del(id)
-        client.delete(id).then()
-        .catch(err=>console.log(err))
-        // onClose();
-        toast({
-            title:'File deleted',
-            status:"success",
-            duration:3000,
-            isClosable:true
-        })
-        setTimeout(()=>{
-            router.reload()
-        },1000)
+        // client.delete(id).then()
+        // .catch(err=>console.log(err))
+        // toast({
+        //     title:'File deleted',
+        //     status:"success",
+        //     duration:3000,
+        //     isClosable:true
+        // })
+        // setTimeout(()=>{
+        //     router.reload()
+        // },1000)
+        console.log("deleted called")
+        try{
+            await axios.delete('/api/del',{
+                id:id
+            })
+        }catch(err){
+            console.log(err);
+        }
+
     }
 
     const {userInfo} = useContext(UserContext)
 
   return (
     <>  
-        {
-        }
-    
         { 
             userInfo?.email === val?.email && (
                 <Button color={"white"} onClick={onOpen} bg="red.500" _hover={{bg:"blue.500" , color:"white"}} rounded="full" >

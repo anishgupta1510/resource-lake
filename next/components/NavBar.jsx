@@ -27,7 +27,7 @@ const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   if (isSmaller) {
     return (
-      <>
+      <Box>
         <Flex
           alignItems={"center"}
           justifyContent="center"
@@ -119,7 +119,7 @@ const NavBar = () => {
             </Box>
           </DrawerContent>
         </Drawer>
-      </>
+      </Box>
     );
   } else {
     return (
@@ -130,7 +130,7 @@ const NavBar = () => {
           zIndex="9999"
           p="4"
           boxShadow={"md"}
-          height="8vh"
+          height="68px"
           width={"full"}
           display="flex"
           alignItems={"center"}

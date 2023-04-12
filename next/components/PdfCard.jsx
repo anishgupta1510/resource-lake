@@ -2,11 +2,15 @@ import UserContext from '@/context/UserContext'
 import { Card, CardBody , Text , Box, Divider} from '@chakra-ui/react'
 import React, { useContext } from 'react'
 import DelBtn from './DelBtn'
-
+import {motion} from "framer-motion"
 const PdfCard = ({val}) => {
     const {userInfo} = useContext(UserContext)
   return (
-    <>
+    <motion.div
+        intial={{opacity:0,y:20}}
+        animate={{opacity:1,y:0}}
+        transition={{duration:0.5}}
+    >
     
         <Card >
             <CardBody bg={"whitesmoke"} >
@@ -16,7 +20,7 @@ const PdfCard = ({val}) => {
                         val.file_name
                     }
                 </Text>
-                <DelBtn id={val?.doc_id} val={val} />
+                <DelBtn id={val?._id} val={val} />
                 </Box>
                 <Box display={"flex"} alignItems="center" justifyContent={"space-between"} marginTop="3px" >
                     <Text color={"grey"} fontSize="xs" >
@@ -67,7 +71,7 @@ const PdfCard = ({val}) => {
             </CardBody>
         </Card>
     
-    </>
+    </motion.div>
   )
 }
 

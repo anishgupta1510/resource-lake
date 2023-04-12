@@ -16,6 +16,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext, useRef, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { useRouter } from "next/router";
+import axios from "axios";
 const FileForm = ({ onClose, filterdata, setfilterdata }) => {
   const filepickerref = useRef(null);
   const [filename, setfileName] = useState("");
@@ -30,7 +31,7 @@ const FileForm = ({ onClose, filterdata, setfilterdata }) => {
   const handlesubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    if (!isValid({ file, filename, branch, sem })) {
+    if (!isValid({ file, filename, branch, sem  , toast})) {
       setLoading(false);
       return;
     }
@@ -60,6 +61,22 @@ const FileForm = ({ onClose, filterdata, setfilterdata }) => {
             email: userInfo.email,
           };
           await upload(url, data);
+          const test_data = {
+            author: userInfo.displayName,
+            file_name: filename,
+            date_uploaded: date.toISOString().substring(0, 10),
+            branch: branch,
+            semester: sem,
+            email: userInfo.email.toString(),
+            file_url:url.toString()
+          }
+          try{
+            const response = await axios.post("/api/insert",test_data);
+            console.log(response.data);
+          }
+          catch(error){
+            console.error(error);
+          }
           toast({
             title: "File Upload Success",
             status: "success",
@@ -174,7 +191,7 @@ const FileForm = ({ onClose, filterdata, setfilterdata }) => {
 
 export default FileForm;
 
-const isValid = ({ filename, branch, sem, file }) => {
+const isValid = ({ filename, branch, sem, file , toast }) => {
   if (filename === "") {
     toast({
       title: "Filename can't be empty",
