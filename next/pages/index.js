@@ -26,7 +26,8 @@ import axios from "axios";
 import useSWR from 'swr'
 import fetcher from "@/utils/fetcher";
 import Display from "@/components/Display";
-
+import { Hypnosis } from "react-cssfx-loading"
+import Loader from "@/components/Loader";
 
 const index = ({   }) => {
   const { userInfo } = useContext(UserContext);
@@ -106,6 +107,16 @@ const index = ({   }) => {
 
   const [branch, setbranch] = useState("");
   const [sem, setsem] = useState("");
+
+  if(res.isLoading){
+    return (
+      <>
+      
+        <Loader/>
+      
+      </>
+    )
+  }
 
   return (
     <>
