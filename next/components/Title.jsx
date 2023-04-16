@@ -1,9 +1,10 @@
 import React from "react";
 import { Flex , Text } from "@chakra-ui/react"
+import Link from "next/link";
 const Title = () => {
   return (
-    <>
-      <Flex alignItems={"center"}>
+    <Link href={"/"}>
+      <Flex alignItems={"center"}  >
         <Text fontWeight={"bold"} fontSize="3xl">
           Resource
         </Text>
@@ -16,7 +17,7 @@ const Title = () => {
           Lake
         </Text>
       </Flex>
-    </>
+    </Link>
   );
 };
 
