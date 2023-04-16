@@ -1,12 +1,12 @@
 import UserContext from '@/context/UserContext';
-import { Box , Button, Input, Text, Textarea} from '@chakra-ui/react'
+import { Box , Button, Input, Text, Textarea, useToast} from '@chakra-ui/react'
 import axios from 'axios';
 import React, { useContext, useState } from 'react'
 
 const RequestForm = ({onClose}) => {
     const [req,setreq] = useState("");
     const {userInfo} = useContext(UserContext);
-
+    const toast = useToast();
 
     const handleclick = async(e) => {
         e.preventDefault();
@@ -26,8 +26,20 @@ const RequestForm = ({onClose}) => {
         try{
             const response = await axios.post('api/Add_post',data)
             console.log(response.data)
+            toast({
+                title:'Request Posted',
+                duration:3000,
+                isClosable:true,
+                status:"success"
+            })
         }catch(err){
             console.log(err)
+            toast({
+                title:"Error",
+                duration:3000,
+                isClosable:true,
+                status:'error'
+            })
         }
 
         onClose();
