@@ -54,6 +54,9 @@ const RequestForm = ({onClose}) => {
         <Button colorScheme='facebook' marginLeft={"10px"} onClick={handleclick} >
             Post
         </Button>
+        <Button colorScheme='red' marginLeft={"8px"} onClick={onClose} >
+            Close
+        </Button>
     </>
   )
 }

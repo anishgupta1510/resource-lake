@@ -45,6 +45,9 @@ const UpdateForm = ({onClose , data , id}) => {
         <Button colorScheme='facebook' marginLeft={"10px"} onClick={handleclick} >
             Update Post
         </Button>
+        <Button colorScheme='red' onClick={onClose} marginLeft={"8px"} >
+            Close
+        </Button>
         </Box>
     </div>
   )
