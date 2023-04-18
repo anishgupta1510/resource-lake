@@ -21,7 +21,7 @@ const InfoTab = () => {
             <Box fontSize={"md"}color="grey" >
                 Search the branch and semester to get all the documents related to that branch/semester
             </Box>
-            <Box fontSize={"md"} color={"grey"} >
+            <Box fontSize={"md"} fontWeight={"bold"} color={"grey"} >
                 To request for a specific document you can go to the <Text display={"inline"} color={"Highlight"}  > <Link href={"/Request"} > Discussion
                 </Link> </Text> section
             </Box>
