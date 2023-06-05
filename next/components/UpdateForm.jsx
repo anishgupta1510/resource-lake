@@ -15,7 +15,7 @@ const UpdateForm = ({onClose , data , id}) => {
 
     try{
       const response = await axios.put('/api/Update_post',data)
-      console.log(response)
+      // console.log(response)
       toast({
         title:"Post Updated",
         duration:3000,

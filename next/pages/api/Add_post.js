@@ -12,7 +12,7 @@ const fn = async(req,res) => {
         });
         try{
             const data_inserted = await data.save();
-            console.log(data_inserted);
+            // console.log(data_inserted);
             res.status(200).json({
                 message:'Post Data inseted successfully',
                 data:data_inserted

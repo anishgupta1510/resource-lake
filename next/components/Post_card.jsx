@@ -24,9 +24,11 @@ const Post_card = ({ ele }) => {
   const {userInfo} = useContext(UserContext)
 
   const handledelclick = async () => {
+    
     try {
       await axios.delete("/api/del_post", {
-        id: ele_id,
+        // id: ele_id,
+        params:{id:ele_id}
       });
       toast({
         title: "Post Deleted",
@@ -44,6 +46,10 @@ const Post_card = ({ ele }) => {
       });
     }
   };
+
+  const handleclick = () => {
+    console.log("hi")
+  }
 
   console.log(ele);
   return (
@@ -94,7 +100,7 @@ const Post_card = ({ ele }) => {
           <Box boxShadow={"xs"} p="2">
             {ele.post}
             <Flex>
-              <Text bg="whitesmoke" >
+              <Text bg="whitesmoke" onClick={handleclick} cursor={"pointer"} >
                 <FiMessageCircle/> 
               </Text>
             </Flex>
@@ -104,8 +110,8 @@ const Post_card = ({ ele }) => {
               marginBottom={"5px"}
               width={"80%"}
             />
-            <Text color={"Highlight"}>
-              Last Updated
+            <Text color={"Highlight"} >
+              Posted On
               {" - " + ele.date_posted}
             </Text>
           </Box>

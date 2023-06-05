@@ -15,7 +15,7 @@ const RequestForm = ({onClose}) => {
         const user_name = userInfo.displayName;
         const date = new Date();
         const date_posted = date.toISOString().substring(0,10)
-        console.log(date_posted)
+        // console.log(date_posted)
         const data = {
             post:post,
             email:email,
@@ -25,7 +25,7 @@ const RequestForm = ({onClose}) => {
 
         try{
             const response = await axios.post('api/Add_post',data)
-            console.log(response.data)
+            // console.log(response.data)
             toast({
                 title:'Request Posted',
                 duration:3000,

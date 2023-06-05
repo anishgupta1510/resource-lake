@@ -26,7 +26,7 @@ const Display_req = () => {
         }
         if(res.data){
             set_post_data(res.data)
-            console.log(res.data)
+            // console.log(res.data)
         }
     },[res.data])
 

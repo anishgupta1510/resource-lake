@@ -72,7 +72,7 @@ const FileForm = ({ onClose, filterdata, setfilterdata }) => {
           }
           try{
             const response = await axios.post("/api/insert",test_data);
-            console.log(response.data);
+            // console.log(response.data);
           }
           catch(error){
             console.error(error);

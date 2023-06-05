@@ -14,7 +14,7 @@ const Display = ({ filterdata, sem, branch }) => {
     set_final_data(filterdata);
   }, [filterdata]);
 
-  console.log(final_data);
+  // console.log(final_data);
 
   useEffect(() => {
     let temp1 = [];

@@ -13,7 +13,6 @@ const DelBtn = ({id,val}) => {
     const toast = useToast()
     const router = useRouter()
     const [isclicked,setisclicked] = useState(false);
-
     const handleclick = async() => {
         // del(id)
         // client.delete(id).then()
@@ -27,10 +26,12 @@ const DelBtn = ({id,val}) => {
         // setTimeout(()=>{
         //     router.reload()
         // },1000)
+        console.log(id);
         console.log("deleted called")
         try{
             await axios.delete('/api/del',{
-                id:id
+                // id:id
+                params:{id:id},
             })
         }catch(err){
             console.log(err);

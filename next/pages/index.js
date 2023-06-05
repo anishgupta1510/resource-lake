@@ -62,11 +62,11 @@ const index = ({   }) => {
     }
     if(res.data){
       setfilterdata(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     }
   },[res.data])
 
-  console.log(filterdata)
+  // console.log(filterdata)
 
   const handleupclick = () => {
     if (userInfo === null) {
