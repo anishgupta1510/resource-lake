@@ -16,7 +16,7 @@ const PostSchema = new Schema({
     date_posted : {
         type:String,
         required:true
-    }
+    },
 });
 
 module.exports = models.Post || model("Post",PostSchema);
