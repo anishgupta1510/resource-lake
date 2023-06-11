@@ -12,7 +12,7 @@ const Request_doc = () => {
     const toast = useToast();
     const check = () => {
         if(userInfo === null){
-            console.log("no")
+            // console.log("no")
             toast({
                 title:"Login to post",
                 status:"info",

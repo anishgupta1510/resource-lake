@@ -12,10 +12,11 @@ import {
 } from "@chakra-ui/react";
 import React , {useContext} from "react";
 import { SlOptions } from "react-icons/sl";
-import { FiMessageCircle } from "react-icons/fi"
+
 import axios from "axios";
 import UserContext from "@/context/UserContext";
 import Post_update from "./Post_update";
+import Reply from "./Reply";
 
 const Post_card = ({ ele }) => {
   const ele_id = ele?._id;
@@ -47,11 +48,7 @@ const Post_card = ({ ele }) => {
     }
   };
 
-  const handleclick = () => {
-    console.log("hi")
-  }
-
-  console.log(ele);
+  // console.log(ele);
   return (
     <>
       <Flex flexDirection={"row"}>
@@ -100,9 +97,12 @@ const Post_card = ({ ele }) => {
           <Box boxShadow={"xs"} p="2">
             {ele.post}
             <Flex>
-              <Text bg="whitesmoke" onClick={handleclick} cursor={"pointer"} >
-                <FiMessageCircle/> 
+              <Text cursor={"pointer"} marginLeft={"5px"} >
+                 <Reply id={ele?._id} />
               </Text>
+            </Flex>
+            <Flex>
+              Replies
             </Flex>
             <Divider
               color={"grey"}

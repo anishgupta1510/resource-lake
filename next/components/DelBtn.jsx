@@ -26,8 +26,8 @@ const DelBtn = ({id,val}) => {
         // setTimeout(()=>{
         //     router.reload()
         // },1000)
-        console.log(id);
-        console.log("deleted called")
+        // console.log(id);
+        // console.log("deleted called")
         try{
             await axios.delete('/api/del',{
                 // id:id
