@@ -17,6 +17,7 @@ import axios from "axios";
 import UserContext from "@/context/UserContext";
 import Post_update from "./Post_update";
 import Reply from "./Reply";
+import Replies from "./Replies"
 
 const Post_card = ({ ele }) => {
   const ele_id = ele?._id;
@@ -102,7 +103,7 @@ const Post_card = ({ ele }) => {
               </Text>
             </Flex>
             <Flex>
-              Replies
+              <Replies post={ele?._id} postemail={ele?.email} />
             </Flex>
             <Divider
               color={"grey"}
