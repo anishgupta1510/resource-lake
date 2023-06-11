@@ -5,7 +5,6 @@ const fn = async(req,res) => {
     if(req.method === 'GET'){
 
         const {postid} = req.query;
-        console.log(postid);
         try{
             const data = await Reply.find({post:postid});
             res.send(data);
