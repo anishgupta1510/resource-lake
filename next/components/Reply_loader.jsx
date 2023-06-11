@@ -1,15 +1,18 @@
 import React from 'react'
-import { Box, Flex } from '@chakra-ui/react'
-import { Spin } from 'react-cssfx-loading'
+import { Text, Flex } from '@chakra-ui/react'
+import { SpinStretch } from 'react-cssfx-loading'
 const Reply_loader = () => {
   return (
-    <Flex alignItems={"center"} justifyContent={"center"} >
-        <Spin
-            height={"20px"}
-            width={"20px"}
+    <Flex flexDirection={"column"} alignItems={"center"} justifyContent={"center"} marginLeft={"50%"} >
+        <SpinStretch
+            height={"50px"}
+            width={"50px"}
             duration='3s'
             color='#0096FF'
         />
+        <Text color={"blue.500"} marginTop={"10px"}>
+            Loading Replies...
+        </Text>
     </Flex>
   )
 }
