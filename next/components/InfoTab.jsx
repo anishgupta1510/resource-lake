@@ -25,6 +25,9 @@ const InfoTab = () => {
                 To request for a specific document you can go to the <Text display={"inline"} color={"blue.500"}  > <Link href={"/Request"} > Discussion
                 </Link> </Text> section
             </Box>
+            <Box fontSize={"md"}color="grey" >
+                To Upload a document click on <Text display={"inline"} fontSize="lg" color={"blue.500"}  >Upload Document</Text>
+            </Box>
         </Box>
 
         <Box width={

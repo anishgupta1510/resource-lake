@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 import ReplyCard from './ReplyCard'
 import {Flex , Box} from '@chakra-ui/react'
+import Loader from './Loader'
+
 const Replies = ({post,postemail}) => {
 
     const [Replylist,setReplylist] = useState();
@@ -25,6 +27,16 @@ const Replies = ({post,postemail}) => {
             setReplylist(res.data);
         }
     },[res.data])
+
+    if(res.isLoading){
+        return(
+            <>
+            
+                <Loader/>
+            
+            </>
+        )
+    }
 
   return (
     <>
