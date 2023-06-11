@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 import ReplyCard from './ReplyCard'
 import {Flex , Box} from '@chakra-ui/react'
-import Loader from './Loader'
+import Reply_loader from './Reply_loader'
 
 const Replies = ({post,postemail}) => {
 
@@ -32,7 +32,7 @@ const Replies = ({post,postemail}) => {
         return(
             <>
             
-                <Loader/>
+                <Reply_loader/>
             
             </>
         )
