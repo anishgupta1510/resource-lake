@@ -17,7 +17,7 @@ const Loader = () => {
           duration="3s"
           color="#0096FF"
         />
-        <Text color={"Highlight"} marginTop={"10px"}>
+        <Text color={"blue.500"} marginTop={"10px"}>
           Loading...
         </Text>
       </Box>

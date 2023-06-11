@@ -65,11 +65,11 @@ const Post_card = ({ ele }) => {
           >
             <Box display={"inline-block"}>
               Post By
-              <Text marginLeft={"5px"} color={"Highlight"} display={"inline"}>
+              <Text marginLeft={"5px"} color={"blue.500"} display={"inline"}>
                 {ele.user_name}
               </Text>
               <Box>
-                <Text color={"Highlight"}>
+                <Text color={"blue.500"}>
                   email
                   {" - " + ele.email}
                 </Text>
@@ -110,7 +110,7 @@ const Post_card = ({ ele }) => {
               marginBottom={"5px"}
               width={"80%"}
             />
-            <Text color={"Highlight"} >
+            <Text color={"blue.500"} >
               Posted On
               {" - " + ele.date_posted}
             </Text>

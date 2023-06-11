@@ -30,7 +30,7 @@ const Request_doc = () => {
     <>
     
         <Button onClick={ check } >
-            <Text color={"Highlight"} >
+            <Text color={"blue.500"} >
                 Generate Request
             </Text>
         </Button>
