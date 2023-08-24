@@ -12,7 +12,7 @@ const InfoTab = () => {
     
         <Box width={
             isSmaller?"80vw":"60vw"
-        } boxShadow="xs" padding={"5px"} >
+        } boxShadow="xs" padding={"1rem"} >
             <Box>
                 <Text color={"blue.500"} fontSize="2xl" textDecoration={"underline"} >
                     How to Use:
@@ -28,12 +28,6 @@ const InfoTab = () => {
             <Box fontSize={"md"}color="grey" >
                 To Upload a document click on <Text display={"inline"} fontSize="lg" color={"blue.500"}  >Upload Document</Text>
             </Box>
-        </Box>
-
-        <Box width={
-            isSmaller?"80vw":"60vw"
-        } padding={"5px"} >
-            <Discussion_btn/>
         </Box>
     
     </>

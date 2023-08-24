@@ -23,19 +23,20 @@ import {
 import { useRouter } from "next/router";
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import useSWR from 'swr'
+import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import Display from "@/components/Display";
-import { Hypnosis } from "react-cssfx-loading"
+import { Hypnosis } from "react-cssfx-loading";
 import Loader from "@/components/Loader";
+import Discussion_btn from "@/components/Discussion_btn";
 
-const index = ({   }) => {
+const index = ({}) => {
   const { userInfo } = useContext(UserContext);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const [filterdata, setfilterdata] = useState();
-  
+
   // useEffect(()=>{
   //   const fun = async() => {
   //     try{
@@ -48,23 +49,23 @@ const index = ({   }) => {
   //   fun();
   // },[])
   // const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const res = useSWR('/api/read',fetcher , {
-    refreshInterval:1000,
-    revalidateIfStale:true,
-    revalidateOnFocus:true,
-    revalidateOnMount:true,
-    revalidateOnReconnect:true
-  } )
-  useEffect(()=>{
+  const res = useSWR("/api/read", fetcher, {
+    refreshInterval: 1000,
+    revalidateIfStale: true,
+    revalidateOnFocus: true,
+    revalidateOnMount: true,
+    revalidateOnReconnect: true,
+  });
+  useEffect(() => {
     if (res.error) {
       console.log(error);
       return;
     }
-    if(res.data){
+    if (res.data) {
       setfilterdata(res.data);
       // console.log(res.data);
     }
-  },[res.data])
+  }, [res.data]);
 
   // console.log(filterdata)
 
@@ -103,19 +104,15 @@ const index = ({   }) => {
   //   };
   // }, []);
 
-
-
   const [branch, setbranch] = useState("");
   const [sem, setsem] = useState("");
 
-  if(res.isLoading){
+  if (res.isLoading) {
     return (
       <>
-      
-        <Loader/>
-      
+        <Loader />
       </>
-    )
+    );
   }
 
   return (
@@ -126,58 +123,63 @@ const index = ({   }) => {
         flexDirection={"column"}
         marginTop="10px"
       >
-        <InfoTab/>
-        <Box width={isSmaller ? "80vw" : "40vw"} display>
-          <Text marginTop={"5px"} fontSize="2xl">
-            Search by Branch
-          </Text>
-          <Select
-            placeholder="Branch"
-            marginTop={"5px"}
-            onChange={(e) => setbranch(e.target.value)}
-          >
-            <option>Cse</option>
-            <option>It</option>
-            <option>Ece</option>
-            <option>Eee</option>
-          </Select>
-        </Box>
-
-        <Box width={isSmaller ? "80vw" : "40vw"} marginTop={"5px"}>
-          <Text marginTop={"5px"} fontSize="2xl">
-            Select by Semester
-          </Text>
-          <Select
-            placeholder="Semester"
-            marginTop={"5px"}
-            onChange={(e) => setsem(e.target.value)}
-          >
-            <option>I</option>
-            <option>II</option>
-            <option>III</option>
-            <option>IV</option>
-            <option>V</option>
-            <option>VI</option>
-            <option>VII</option>
-            <option>VIII</option>
-          </Select>
-        </Box>
+        <InfoTab />
+        <div className="lg:flex gap-8 w-1/2 justify-around">
+          <Box width={"100%"}>
+            <Text marginTop={"5px"} fontSize="xl">
+              Search by Branch
+            </Text>
+            <Select
+              placeholder="Branch"
+              marginTop={"5px"}
+              onChange={(e) => setbranch(e.target.value)}
+            >
+              <option>Cse</option>
+              <option>It</option>
+              <option>Ece</option>
+              <option>Eee</option>
+            </Select>
+          </Box>
+          <Box width={"100%"}>
+            <Text marginTop={"5px"} fontSize="xl">
+              Select by Semester
+            </Text>
+            <Select
+              placeholder="Semester"
+              marginTop={"5px"}
+              onChange={(e) => setsem(e.target.value)}
+            >
+              <option>I</option>
+              <option>II</option>
+              <option>III</option>
+              <option>IV</option>
+              <option>V</option>
+              <option>VI</option>
+              <option>VII</option>
+              <option>VIII</option>
+            </Select>
+          </Box>
+        </div>
         {/* <Button colorScheme={"telegram"} marginTop="15px" onClick={handleclick} >
           Search
         </Button> */}
-        <Button
-          marginTop={"15px"}
-          colorScheme="linkedin"
-          onClick={handleupclick}
-        >
-          Upload Document
-        </Button>
+        <div className="fixed z-50 bottom-10 flex justify-center items-center gap-4">
+          <div>
+            <Button
+              colorScheme="linkedin"
+              onClick={handleupclick}
+            >
+              Upload Document
+            </Button>
+          </div>
+          <div>
+            <Discussion_btn />
+          </div>
+        </div>
         <Text marginTop={"10px"} fontSize="3xl">
-          Search 
+          Search
         </Text>
-        <Text color={"grey"} >
-          (by file name)
-        </Text>
+        <Text color={"grey"}>(by file name)</Text>
         <Modal
           isOpen={isOpen}
           onClose={onClose}
@@ -217,11 +219,9 @@ const index = ({   }) => {
         /> */}
 
         <Display filterdata={filterdata} branch={branch} sem={sem} />
-
       </Flex>
     </>
   );
 };
 
 export default index;
-
