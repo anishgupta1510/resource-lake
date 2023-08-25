@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import DelBtn from "./DelBtn";
 import { motion } from "framer-motion";
 import { BiSolidDownload } from "react-icons/bi";
-
+import {FcDownload} from "react-icons/fc"
 const PdfCard = ({ val }) => {
   const { userInfo } = useContext(UserContext);
   return (
@@ -98,7 +98,8 @@ const Card = ({ val, userInfo }) => {
       </div>
       <div className="flex gap-4 justify-end">
         <div>
-          <DelBtn id={val?._id} val={val} />
+          {/* <DelBtn id={val?._id} val={val} /> */}
+          <FileLinkbtn val = {val} />
         </div>
         <div>
           <DelBtn id={val?._id} val={val} />
@@ -116,3 +117,16 @@ const Description = ({ name, value }) => {
     </div>
   );
 };
+
+const FileLinkbtn = ({val}) => {
+  {
+    console.log(val.file_url)
+  }
+  return (
+    <div className="w-90" >
+      <a href={val?.file_url} target="_blank">
+        <FcDownload/>
+      </a>
+    </div>
+  )
+}

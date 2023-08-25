@@ -127,7 +127,7 @@ const index = ({}) => {
         <div className="lg:flex gap-8 w-1/2 justify-around">
           <Box width={"100%"}>
             <Text marginTop={"5px"} fontSize="xl">
-              Search by Branch
+              Filter by Branch
             </Text>
             <Select
               placeholder="Branch"
@@ -142,7 +142,7 @@ const index = ({}) => {
           </Box>
           <Box width={"100%"}>
             <Text marginTop={"5px"} fontSize="xl">
-              Select by Semester
+              Filter by Semester
             </Text>
             <Select
               placeholder="Semester"
@@ -176,10 +176,10 @@ const index = ({}) => {
             <Discussion_btn />
           </div>
         </div>
-        <Text marginTop={"10px"} fontSize="3xl">
+        {/* <Text marginTop={"10px"} fontSize="3xl">
           Search
-        </Text>
-        <Text color={"grey"}>(by file name)</Text>
+        </Text> */}
+        <Text fontSize={"lg"} marginTop={"3px"} >Search by file name</Text>
         <Modal
           isOpen={isOpen}
           onClose={onClose}
