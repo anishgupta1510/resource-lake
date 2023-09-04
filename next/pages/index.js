@@ -76,7 +76,7 @@ const index = ({}) => {
         status: "info",
         duration: 3000,
         isClosable: true,
-        position: "top",
+        position: "bottom",
       });
     } else {
       onOpen();
